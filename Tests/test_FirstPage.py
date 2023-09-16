@@ -1,5 +1,7 @@
 import time
 
+import pytest
+
 from Utilities.Baseclass import  BaseClass
 from PageObjects.FirstPage import FirstPage1
 from PageObjects.SearchResultPage import SearchResultPage1
@@ -9,6 +11,8 @@ class Test_FirstPage(BaseClass):
         firstpage.getmyaccout().click()
         firstpage.getregister().click()
 
+    @pytest.mark.sanity
+    @pytest.mark.regression
     def test_search_for_valid_product(self):
         #self.getlogger("seraching valid product  hp....")
         firstpage = FirstPage1(self.driver)

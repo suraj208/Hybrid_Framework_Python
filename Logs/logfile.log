@@ -8,3 +8,7 @@
 2023-09-15 15:25:22,601 :INFO : test_Login_Page_with_Correct_credentials :using password as suraj123
 2023-09-15 15:27:28,177 :INFO : test_Login_Page_with_Correct_credentials :usisng the email as ramji123456@gmail.com
 2023-09-15 15:27:29,091 :INFO : test_Login_Page_with_Correct_credentials :using password as suraj123
+2023-09-16 11:59:45,692 :INFO : test_Login_Page_with_Correct_credentials :usisng the email as ramji123456@gmail.com
+2023-09-16 11:59:46,389 :INFO : test_Login_Page_with_Correct_credentials :using password as suraj123
+2023-09-16 12:56:43,772 :INFO : test_Login_Page_with_Correct_credentials :usisng the email as ramji123456@gmail.com
+2023-09-16 12:56:47,093 :INFO : test_Login_Page_with_Correct_credentials :using password as suraj123
