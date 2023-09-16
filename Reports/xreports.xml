@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="91.234" timestamp="2023-09-15T15:26:45.279216" hostname="suraj"><testcase classname="test_FirstPage.Test_FirstPage" name="test_firsttestcase" time="16.004" /><testcase classname="test_FirstPage.Test_FirstPage" name="test_search_for_valid_product" time="6.628" /><testcase classname="test_FirstPage.Test_FirstPage" name="test_search_for_invalid_product" time="0.909" /><testcase classname="test_LoginPage.TestLoginPage" name="test_Login_Page_with_Correct_credentials[getData0]" time="21.886" /><testcase classname="test_registration.TestRegistrationPage" name="test_registrationPage_with_all_fields" time="44.906"><failure message="selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//h1[text()=&quot;Your Account Has Been Created!&quot;]&quot;}&#10;  (Session info: chrome=117.0.5938.63)&#10;Stacktrace:&#10;&#09;GetHandleVerifier [0x00007FF6FB337862+54818]&#10;&#09;(No symbol) [0x00007FF6FB2A6A92]&#10;&#09;(No symbol) [0x00007FF6FB15DA3B]&#10;&#09;(No symbol) [0x00007FF6FB19E4FC]&#10;&#09;(No symbol) [0x00007FF6FB19E67C]&#10;&#09;(No symbol) [0x00007FF6FB1D9627]&#10;&#09;(No symbol) [0x00007FF6FB1BEAEF]&#10;&#09;(No symbol) [0x00007FF6FB1D75A2]&#10;&#09;(No symbol) [0x00007FF6FB1BE883]&#10;&#09;(No symbol) [0x00007FF6FB193691]&#10;&#09;(No symbol) [0x00007FF6FB1948D4]&#10;&#09;GetHandleVerifier [0x00007FF6FB69B962+3610402]&#10;&#09;GetHandleVerifier [0x00007FF6FB6F1830+3962352]&#10;&#09;GetHandleVerifier [0x00007FF6FB6E9D1F+3930847]&#10;&#09;GetHandleVerifier [0x00007FF6FB3D3616+693206]&#10;&#09;(No symbol) [0x00007FF6FB2B15F8]&#10;&#09;(No symbol) [0x00007FF6FB2AD904]&#10;&#09;(No symbol) [0x00007FF6FB2ADA32]&#10;&#09;(No symbol) [0x00007FF6FB29E0E3]&#10;&#09;BaseThreadInitThunk [0x00007FFD2AEC7614+20]&#10;&#09;RtlUserThreadStart [0x00007FFD2CC426B1+33]">self = &lt;Tests.test_registration.TestRegistrationPage object at 0x0000022D6759D390&gt;
+
+    def test_registrationPage_with_all_fields(self):
+        firstname = FirstPage1(self.driver)
+        firstname.getmyaccout().click()
+        firstname.getregister().click()
+        registerpage = RegisterPage(self.driver)
+        registerpage.getFirstname().send_keys("ayodya")
+        registerpage.getLastname().send_keys("Ramji")
+        registerpage.getemail().send_keys("ramji1234562@gmail.com")
+        registerpage.getTelephone().send_keys("80087565835")
+        registerpage.getPassword().send_keys("suraj123")
+        registerpage.getConfirm_Password().send_keys("suraj123")
+        registerpage.getcheckbox().click()
+        registerpage.getContinueButton().click()
+        success_massege ="Your Account Has Been Created!"
+        accountpage = AccountPage(self.driver)
+&gt;       assert  accountpage.get_ac_Confirm_messege()==success_massege
+
+test_registration.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+..\PageObjects\AccountPage.py:15: in get_ac_Confirm_messege
+    return self.driver.find_element(*AccountPage.account_create_success_messege_by_xpath).text
+C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\site-packages\selenium\webdriver\remote\webdriver.py:857: in find_element
+    return self.execute(Command.FIND_ELEMENT, {
+C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\site-packages\selenium\webdriver\remote\webdriver.py:435: in execute
+    self.error_handler.check_response(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000022D64A78130&gt;
+response = {'status': 404, 'value': '{"value":{"error":"no such element","message":"no such element: Unable to locate element: {\...07FF6FB29E0E3]\\n\\tBaseThreadInitThunk [0x00007FFD2AEC7614+20]\\n\\tRtlUserThreadStart [0x00007FFD2CC426B1+33]\\n"}}'}
+
+    def check_response(self, response: Dict[str, Any]) -&gt; None:
+        """
+        Checks that a JSON response from the WebDriver does not have an error.
+    
+        :Args:
+         - response - The JSON response from the WebDriver server as a dictionary
+           object.
+    
+        :Raises: If the response contains an error message.
+        """
+        status = response.get('status', None)
+        if not status or status == ErrorCode.SUCCESS:
+            return
+        value = None
+        message = response.get("message", "")
+        screen: str = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json and isinstance(value_json, str):
+                import json
+                try:
+                    value = json.loads(value_json)
+                    if len(value.keys()) == 1:
+                        value = value['value']
+                    status = value.get('error', None)
+                    if not status:
+                        status = value.get("status", ErrorCode.UNKNOWN_ERROR)
+                        message = value.get("value") or value.get("message")
+                        if not isinstance(message, str):
+                            value = message
+                            message = message.get('message')
+                    else:
+                        message = value.get('message', None)
+                except ValueError:
+                    pass
+    
+        exception_class: Type[WebDriverException]
+        if status in ErrorCode.NO_SUCH_ELEMENT:
+            exception_class = NoSuchElementException
+        elif status in ErrorCode.NO_SUCH_FRAME:
+            exception_class = NoSuchFrameException
+        elif status in ErrorCode.NO_SUCH_SHADOW_ROOT:
+            exception_class = NoSuchShadowRootException
+        elif status in ErrorCode.NO_SUCH_WINDOW:
+            exception_class = NoSuchWindowException
+        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+            exception_class = StaleElementReferenceException
+        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+            exception_class = ElementNotVisibleException
+        elif status in ErrorCode.INVALID_ELEMENT_STATE:
+            exception_class = InvalidElementStateException
+        elif status in ErrorCode.INVALID_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+            exception_class = InvalidSelectorException
+        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+            exception_class = ElementNotSelectableException
+        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+            exception_class = ElementNotInteractableException
+        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+            exception_class = InvalidCookieDomainException
+        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+            exception_class = UnableToSetCookieException
+        elif status in ErrorCode.TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.SCRIPT_TIMEOUT:
+            exception_class = TimeoutException
+        elif status in ErrorCode.UNKNOWN_ERROR:
+            exception_class = WebDriverException
+        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+            exception_class = UnexpectedAlertPresentException
+        elif status in ErrorCode.NO_ALERT_OPEN:
+            exception_class = NoAlertPresentException
+        elif status in ErrorCode.IME_NOT_AVAILABLE:
+            exception_class = ImeNotAvailableException
+        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+            exception_class = ImeActivationFailedException
+        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+            exception_class = MoveTargetOutOfBoundsException
+        elif status in ErrorCode.JAVASCRIPT_ERROR:
+            exception_class = JavascriptException
+        elif status in ErrorCode.SESSION_NOT_CREATED:
+            exception_class = SessionNotCreatedException
+        elif status in ErrorCode.INVALID_ARGUMENT:
+            exception_class = InvalidArgumentException
+        elif status in ErrorCode.NO_SUCH_COOKIE:
+            exception_class = NoSuchCookieException
+        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+            exception_class = ScreenshotException
+        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+            exception_class = ElementClickInterceptedException
+        elif status in ErrorCode.INSECURE_CERTIFICATE:
+            exception_class = InsecureCertificateException
+        elif status in ErrorCode.INVALID_COORDINATES:
+            exception_class = InvalidCoordinatesException
+        elif status in ErrorCode.INVALID_SESSION_ID:
+            exception_class = InvalidSessionIdException
+        elif status in ErrorCode.UNKNOWN_METHOD:
+            exception_class = UnknownMethodException
+        else:
+            exception_class = WebDriverException
+        if not value:
+            value = response['value']
+        if isinstance(value, str):
+            raise exception_class(value)
+        if message == "" and 'message' in value:
+            message = value['message']
+    
+        screen = None  # type: ignore[assignment]
+        if 'screen' in value:
+            screen = value['screen']
+    
+        stacktrace = None
+        st_value = value.get('stackTrace') or value.get('stacktrace')
+        if st_value:
+            if isinstance(st_value, str):
+                stacktrace = st_value.split('\n')
+            else:
+                stacktrace = []
+                try:
+                    for frame in st_value:
+                        line = self._value_or_default(frame, 'lineNumber', '')
+                        file = self._value_or_default(frame, 'fileName', '&lt;anonymous&gt;')
+                        if line:
+                            file = f"{file}:{line}"
+                        meth = self._value_or_default(frame, 'methodName', '&lt;anonymous&gt;')
+                        if 'className' in frame:
+                            meth = "{}.{}".format(frame['className'], meth)
+                        msg = "    at %s (%s)"
+                        msg = msg % (meth, file)
+                        stacktrace.append(msg)
+                except TypeError:
+                    pass
+        if exception_class == UnexpectedAlertPresentException:
+            alert_text = None
+            if 'data' in value:
+                alert_text = value['data'].get('text')
+            elif 'alert' in value:
+                alert_text = value['alert'].get('text')
+            raise exception_class(message, screen, stacktrace, alert_text)  # type: ignore[call-arg]  # mypy is not smart enough here
+&gt;       raise exception_class(message, screen, stacktrace)
+E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"//h1[text()="Your Account Has Been Created!"]"}
+E         (Session info: chrome=117.0.5938.63)
+E       Stacktrace:
+E       	GetHandleVerifier [0x00007FF6FB337862+54818]
+E       	(No symbol) [0x00007FF6FB2A6A92]
+E       	(No symbol) [0x00007FF6FB15DA3B]
+E       	(No symbol) [0x00007FF6FB19E4FC]
+E       	(No symbol) [0x00007FF6FB19E67C]
+E       	(No symbol) [0x00007FF6FB1D9627]
+E       	(No symbol) [0x00007FF6FB1BEAEF]
+E       	(No symbol) [0x00007FF6FB1D75A2]
+E       	(No symbol) [0x00007FF6FB1BE883]
+E       	(No symbol) [0x00007FF6FB193691]
+E       	(No symbol) [0x00007FF6FB1948D4]
+E       	GetHandleVerifier [0x00007FF6FB69B962+3610402]
+E       	GetHandleVerifier [0x00007FF6FB6F1830+3962352]
+E       	GetHandleVerifier [0x00007FF6FB6E9D1F+3930847]
+E       	GetHandleVerifier [0x00007FF6FB3D3616+693206]
+E       	(No symbol) [0x00007FF6FB2B15F8]
+E       	(No symbol) [0x00007FF6FB2AD904]
+E       	(No symbol) [0x00007FF6FB2ADA32]
+E       	(No symbol) [0x00007FF6FB29E0E3]
+E       	BaseThreadInitThunk [0x00007FFD2AEC7614+20]
+E       	RtlUserThreadStart [0x00007FFD2CC426B1+33]
+
+C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\site-packages\selenium\webdriver\remote\errorhandler.py:247: NoSuchElementException</failure></testcase></testsuite></testsuites>
